@@ -14,11 +14,16 @@ class scoreboard extends uvm_scoreboard;
   endfunction
   
   virtual function void write(packet pkt);
-    if(pkt.y == (pkt.a * pkt.b))
-      `uvm_info(get_type_name(),$sformatf("Test Passed -> a:%d b:%d y:%d",pkt.a,pkt.b,pkt.y),UVM_MEDIUM)
-    else
-      `uvm_error(get_type_name(),$sformatf("Test Failed -> a:%d b:%d y:%d",pkt.a,pkt.b,pkt.y))
-    $display("---------------------------------------------------");
+    if (pkt.op == RESET)
+        `uvm_info(get_type_name(),"SYSTEM RESET DETECTED",UVM_MEDIUM)
+    else if(pkt.op == WRITE)
+      begin
+        
+      end
+    else if(pkt.op == READ)
+      begin
+        
+      end
+      $display("-----------------------------------------------------------------");       
   endfunction
-  
 endclass
