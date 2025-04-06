@@ -1,3 +1,4 @@
-# UVM-based-Verification-of-a-4-bit-Multiplier
+# UVM-based-Verification-of-a-Round-Robin-Arbiter
 
-This repo marks as the first step in learning UVM
+The arbiter handles four requests at a time. It follows a fixed time slice approach. The transactions can be READ and WRITE requests. 
+The design is verified under a UVM-based testbench.
