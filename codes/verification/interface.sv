@@ -1,6 +1,15 @@
-//Interface
-interface mul_intf;
-  logic [3:0] a;
-  logic [3:0] b;
-  logic [7:0] y;
+interface arb_intf(input logic clk, input logic reset);
+
+  logic [3:0] REQ;
+  logic [3:0] GNT;
+
+  packet_in  master_in_data [4];   // Inputs from masters
+  packet_out master_out_data;      // Output to memory
+
+  logic [31:0] rdata;              // From memory
+  logic        rdata_ack;          // From memory
+
+  logic [31:0] slave_rdata;        // To interconnect/APB slave
+  logic        slave_rdata_ack;  // To interconnect/APB slave
+
 endinterface
