@@ -1,6 +1,6 @@
-//Top Module
-`include "uvm_macros.svh" //Gives access to all the macros  that we frequently use in the verification environment
-import uvm_pkg::*; //Gives access to the base class from which we can build the verification environment 
+//Top Class
+`include "uvm_macros.svh" 
+import uvm_pkg::*; 
 
 `include "packet.sv"
 `include "sequence.sv"
@@ -16,12 +16,29 @@ import uvm_pkg::*; //Gives access to the base class from which we can build the 
 
 module top;
   
-  mul_intf mif();
+  logic clk,reset;
   
-  mul_4bit dut(.input1(mif.a),.input2(mif.b),.mul_output(mif.y));
+  //Interface Instance
+  arb_intf arbif(.clk(clk),.reset(reset));
   
+  //DUT Instantiation
+  round_robin_arbiter dut(.clk(clk),.reset(reset),.REQ(arbif.REQ),.GNT(arbif.GNT),.master_in_data(arbif.master_in_data),.master_out_data(arbif.master_out_data),.rdata(arbif.rdata),.rdata_ack(arbif.rdata_ack),.slave_rdata(arbif.slave_rdata),.slave_rdata_ack(arbif.slave_rdata_ack));
+  
+  //Clock Generation
   initial begin
-    uvm_config_db#(virtual mul_intf)::set(null,"*","mif",mif);
+    clk = 1'b0;
+    forever #10 clk = ~ clk;
+  end
+  
+  //Reset
+  initial begin
+    reset = 1'b0;
+    #20 reset = 1'b1;
+  end
+  
+  //Set config db
+  initial begin
+    uvm_config_db#(virtual arb_intf)::set(null,"*","arbif",arbif);
   end
   
   initial begin
